@@ -1,19 +1,37 @@
-body{
+*{
 	margin: 0;
 	padding: 0;
+}
+body{
 	width: 100%;
 	height: 100%;
+	background-color: #fafafa;
 }
 canvas{
 	border-bottom: 1px solid #ddd;
 	cursor: crosshair;
 }
-.btn{
-	color: #fafafa;
+nav{
 	background-color: #212121;
-	border: none;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 48px;
+}
+ul{
+	list-style-type: none;
+	display: block;
+	width: 95%;
+	margin: auto;
+	height: 100%;
+}
+ul li{
 	display: inline-block;
-	padding: 1%;
-	margin: 0 2%;
-	border-radius: 5px;
+	color: #fafafa;
+	padding: 0 2%;
+	height: 100%;
+	line-height: 48px;
+}
+ul li:hover{
+	background-color: #323232;
 }

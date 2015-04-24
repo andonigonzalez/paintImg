@@ -1,4 +1,11 @@
 D:\andoni\paintApp\platforms\android\ant-build\classes.dex : \
+D:\andoni\paintApp\platforms\android\ant-build\classes\com\jam\paint\BuildConfig.class \
+D:\andoni\paintApp\platforms\android\ant-build\classes\com\jam\paint\CordovaApp.class \
+D:\andoni\paintApp\platforms\android\ant-build\classes\com\jam\paint\R$attr.class \
+D:\andoni\paintApp\platforms\android\ant-build\classes\com\jam\paint\R$drawable.class \
+D:\andoni\paintApp\platforms\android\ant-build\classes\com\jam\paint\R$string.class \
+D:\andoni\paintApp\platforms\android\ant-build\classes\com\jam\paint\R$xml.class \
+D:\andoni\paintApp\platforms\android\ant-build\classes\com\jam\paint\R.class \
 D:\andoni\paintApp\platforms\android\ant-build\classes\com\paint\paint\BuildConfig.class \
 D:\andoni\paintApp\platforms\android\ant-build\classes\com\paint\paint\CordovaApp.class \
 D:\andoni\paintApp\platforms\android\ant-build\classes\com\paint\paint\R$attr.class \

@@ -11,7 +11,7 @@ function init(){
 	
 	/*TAMAÑO CANVAS*/
 	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight - 40;
+	canvas.height = window.innerHeight - 50;
 	
 	/*FONDO BLANCO DEL CANVAS*/
 	var canvasW = canvas.width;
@@ -27,14 +27,17 @@ function init(){
 		canvas.addEventListener("touchend", fin, false);
 		function inicio(e){
 			e.preventDefault();
+			ctx.beginPath();
 			ctx.strokeStyle = color;
 			ctx.lineWidth = ancho;
-			ctx.beginPath();
 			ctx.moveTo(e.touches[0].pageX, e.touches[0].pageY);
+			ctx.arc(e.touches[0].pageX, e.touches[0].pageY, .3, 0,2*Math.PI, false);
+			ctx.fillStyle = color;
+			ctx.fill();
 		}
 		function movimiento(e){
 			ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
-			ctx.stroke();					
+			ctx.stroke();
 		}
 		function fin(){
 			ctx.closePath();
