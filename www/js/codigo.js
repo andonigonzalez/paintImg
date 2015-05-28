@@ -1,97 +1,122 @@
-document.addEventListener("deviceready", init, false);
+document.addEventListener("DOMContentLoaded", init, false);
+
+/*VARIABLES*/
+var canvas = null;
+var ctx = null;
+var drawing = false;
+var color  = "#000"
+var ancho = 3;
+var contador = 0;
+var target = new Circle(20, 20, 20);
+//var player = new Circle(0, 0, 10);
+var x = 0;
+var y = 0;
 
 function init(){
-
-	/*VARIABLES*/
-	var canvas = document.getElementById("canvas");
-	var ctx = canvas.getContext("2d");
-	var drawing = false;
-	var color  = $("#color").val();
-	var ancho = 3;
 	
+	canvas = document.getElementById("canvas");
+	ctx = canvas.getContext("2d");
+
 	/*TAMAÑO CANVAS*/
 	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight - 50;
+	canvas.height = window.innerHeight - 100;
 	
-	/*FONDO BLANCO DEL CANVAS*/
-	var canvasW = canvas.width;
-	var canvasH = canvas.height;
-	ctx.fillStyle = "#fff";
-	ctx.fillRect (0, 0, canvasW, canvasH);
-	
-	/*DIBUJAR*/
-	/*MOVIL*/
-	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){			
-		canvas.addEventListener("touchstart", inicio, false);
-		canvas.addEventListener("touchmove", movimiento, false);
-		canvas.addEventListener("touchend", fin, false);
-		function inicio(e){
-			e.preventDefault();
-			ctx.beginPath();
-			ctx.strokeStyle = color;
-			ctx.lineWidth = ancho;
-			ctx.moveTo(e.touches[0].pageX, e.touches[0].pageY);
-			ctx.arc(e.touches[0].pageX, e.touches[0].pageY, .3, 0,2*Math.PI, false);
-			ctx.fillStyle = color;
-			ctx.fill();
-		}
-		function movimiento(e){
-			ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
-			ctx.stroke();
-		}
-		function fin(){
-			ctx.closePath();
-		}
-	}
-	/*ORDENADOR*/
-	else{
-		$("#canvas").mousedown(function(e){
-			drawing = true;
-			ctx.strokeStyle = color;
-			ctx.lineWidth = ancho;
-			ctx.beginPath();
-			ctx.moveTo(e.clientX, e.clientY);
-		});
-		$("#canvas").mousemove(function(e){
-			if(drawing){
-				ctx.lineTo(e.clientX, e.clientY);
-				ctx.stroke();
-			}
-		});
-		$("#canvas").mouseup(function(){
-			drawing = false;
-			ctx.closePath();
-		});
+	/*AÑADIR IMAGEN*/
+	var img = new Image();
+	img.src = "img/dos.jpg";
+	img.onload = function(){
+		ctx.drawImage(img, 0, 0);
 	}
 	
-	/*BOTONES*/
-	$("#limpiar").click(function(){
-		ctx.fillStyle = "#fff";
-		ctx.fillRect (0, 0, canvasW, canvasH);
-		color: $("#color").val();
-	});
-	$("#borrar").click(function(){
-		color = "#fff";
-		ancho = 24;
-	});
-	$("#dibujar").click(function(){
-		color = $("#color").val();
-		ancho = 3;
-	});
-	$("#color").change(function(){
-		color = $("#color").val();
-		ancho = 3;
-	});
-	$("#guardar").click(function(){
-		window.canvas2ImagePlugin.saveImageDataToLibrary(
-			function(msg){
-				alert("guardado correctamente");
-			},
-			function(err){
-				alert(err);
-			},
-			canvas
-		);
-	});
-
+	run();
+	
 }
+
+/*CIRCULO*/
+function Circle(x,y,radius){
+	this.x=(x==null)?0:x;
+	this.y=(y==null)?0:y;
+	this.radius=(radius==null)?0:radius;
+}
+
+Circle.prototype.stroke=function(ctx){
+	ctx.beginPath();
+	ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,true);
+	ctx.stroke();
+}
+
+Circle.prototype.distance=function(circle){
+	if(circle!=null){
+		var dx=this.x-circle.x;
+		var dy=this.y-circle.y;
+		return (Math.sqrt(dx*dx+dy*dy)-(this.radius+circle.radius));
+	}
+}
+	
+/*DIBUJAR*/
+document.addEventListener("touchstart", inicio, false);
+document.addEventListener("touchmove", movimiento, false);
+
+function inicio(e){
+	e.preventDefault();
+	ctx.beginPath();
+	ctx.strokeStyle = color;
+	ctx.lineWidth = ancho;
+	ctx.arc(e.touches[0].pageX, e.touches[0].pageY, .3, 0, 2 * Math.PI, false);
+	ctx.fillStyle = color;
+	ctx.fill();
+}
+function movimiento(e){
+	e.preventDefault();
+	x = e.touches[0].pageX - canvas.offsetLeft;
+	y = e.touches[0].pageY - canvas.offsetTop;
+	ctx.lineTo(x, y);
+	ctx.stroke();
+	if(x < 0 || x > canvas.width || y < 0 || y > canvas.height){
+		contador++;
+		return false;
+	}
+}
+
+function run(){
+	requestAnimationFrame(run);
+	//act();
+	paint(ctx);
+}
+function act(){
+
+	
+}
+function paint(ctx){
+	//ctx.strokeStyle='#0f0';
+	//player.stroke(ctx);
+	ctx.strokeStyle='#f00';
+	target.stroke(ctx);
+}
+
+/*BOTONES*/
+$("#limpiar").click(function(){
+	ctx.fillStyle = "#fff";
+	ctx.fillRect(0, 0, canvasW, canvasH);
+	color = "#000";
+});
+
+$("#resultado").click(function(){
+	alert("Te has salido " + contador + " veces");
+});
+
+$("#dibujar").click(function(){
+	color = "#000";
+	ancho = 3;
+});
+
+$("#recargar").click(function(){
+	init();
+});
+
+window.requestAnimationFrame=(function(){
+	return window.requestAnimationFrame || 
+		window.webkitRequestAnimationFrame || 
+		window.mozRequestAnimationFrame || 
+		function(callback){window.setTimeout(callback,17);};
+})();

@@ -1,2 +1,2 @@
-D:\andoni\paintApp\platforms\android\ant-build\AndroidManifest.xml : \
-D:\andoni\paintApp\platforms\android\AndroidManifest.xml \
+D:\andoni\paintImg\platforms\android\ant-build\AndroidManifest.xml : \
+D:\andoni\paintImg\platforms\android\AndroidManifest.xml \

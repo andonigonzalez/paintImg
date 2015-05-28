@@ -6,12 +6,13 @@ function init(){
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
 	var drawing = false;
-	var color  = $("#color").val();
+	var color  = "#000"
 	var ancho = 3;
+	var contador = 0;
 	
 	/*TAMAÑO CANVAS*/
 	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight - 50;
+	canvas.height = window.innerHeight - 100;
 	
 	/*FONDO BLANCO DEL CANVAS*/
 	var canvasW = canvas.width;
@@ -19,79 +20,58 @@ function init(){
 	ctx.fillStyle = "#fff";
 	ctx.fillRect (0, 0, canvasW, canvasH);
 	
+	/*AÑADIR IMAGEN*/
+	var img = new Image();
+	img.src = "img/dos.jpg";
+	img.onload = function(){
+		ctx.drawImage(img, 0, 0);
+	}
+	
 	/*DIBUJAR*/
-	/*MOVIL*/
-	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){			
-		canvas.addEventListener("touchstart", inicio, false);
-		canvas.addEventListener("touchmove", movimiento, false);
-		canvas.addEventListener("touchend", fin, false);
-		function inicio(e){
-			e.preventDefault();
-			ctx.beginPath();
-			ctx.strokeStyle = color;
-			ctx.lineWidth = ancho;
-			ctx.moveTo(e.touches[0].pageX, e.touches[0].pageY);
-			ctx.arc(e.touches[0].pageX, e.touches[0].pageY, .3, 0,2*Math.PI, false);
-			ctx.fillStyle = color;
-			ctx.fill();
-		}
-		function movimiento(e){
-			ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
-			ctx.stroke();
-		}
-		function fin(){
-			ctx.closePath();
+	canvas.addEventListener("touchstart", inicio, false);
+	canvas.addEventListener("touchmove", movimiento, false);
+	canvas.addEventListener("touchend", fin, false);
+	function inicio(e){
+		e.preventDefault();
+		ctx.beginPath();
+		ctx.strokeStyle = color;
+		ctx.lineWidth = ancho;
+		ctx.moveTo(e.touches[0].pageX, e.touches[0].pageY);
+		ctx.arc(e.touches[0].pageX, e.touches[0].pageY, .3, 0, 2 * Math.PI, false);
+		ctx.fillStyle = color;
+		ctx.fill();
+	}
+	function movimiento(e){
+		e.preventDefault();
+		x = e.touches[0].pageX - canvas.offsetLeft;
+        y = e.touches[0].pageY - canvas.offsetTop;
+		ctx.lineTo(x, y);
+		ctx.stroke();
+		if(x < 0 || x > canvas.width || y < 0 || y > canvas.height){
+			contador++;
+			return false;
 		}
 	}
-	/*ORDENADOR*/
-	else{
-		$("#canvas").mousedown(function(e){
-			drawing = true;
-			ctx.strokeStyle = color;
-			ctx.lineWidth = ancho;
-			ctx.beginPath();
-			ctx.moveTo(e.clientX, e.clientY);
-		});
-		$("#canvas").mousemove(function(e){
-			if(drawing){
-				ctx.lineTo(e.clientX, e.clientY);
-				ctx.stroke();
-			}
-		});
-		$("#canvas").mouseup(function(){
-			drawing = false;
-			ctx.closePath();
-		});
+	function fin(e){
+		e.preventDefault();
+		ctx.closePath();
 	}
 	
 	/*BOTONES*/
 	$("#limpiar").click(function(){
 		ctx.fillStyle = "#fff";
-		ctx.fillRect (0, 0, canvasW, canvasH);
-		color: $("#color").val();
+		ctx.fillRect(0, 0, canvasW, canvasH);
+		color = "#000";
 	});
-	$("#borrar").click(function(){
-		color = "#fff";
-		ancho = 24;
+	$("#resultado").click(function(){
+		alert("Te has salido " + contador + " veces");
 	});
 	$("#dibujar").click(function(){
-		color = $("#color").val();
+		color = "#000";
 		ancho = 3;
 	});
-	$("#color").change(function(){
-		color = $("#color").val();
-		ancho = 3;
-	});
-	$("#guardar").click(function(){
-		window.canvas2ImagePlugin.saveImageDataToLibrary(
-			function(msg){
-				alert("guardado correctamente");
-			},
-			function(err){
-				alert(err);
-			},
-			canvas
-		);
+	$("#recargar").click(function(){
+		init();
 	});
 
 }
