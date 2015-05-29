@@ -53,7 +53,7 @@ Circle.prototype.distance=function(circle){
 		return (Math.sqrt(dx*dx+dy*dy)-(this.radius+circle.radius));
 	}
 }
-	
+
 /*DIBUJAR*/
 document.addEventListener("touchstart", inicio, false);
 document.addEventListener("touchmove", movimiento, false);
