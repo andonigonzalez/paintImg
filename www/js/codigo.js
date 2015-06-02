@@ -38,14 +38,12 @@ function Circle(x,y,radius){
 	this.y=(y==null)?0:y;
 	this.radius=(radius==null)?0:radius;
 }
-
 Circle.prototype.stroke=function(ctx){
 	ctx.beginPath();
-	ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,true);
+	ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
 	ctx.stroke();
 	ctx.closePath();
 }
-
 Circle.prototype.distance=function(circle){
 	if(circle!=null){
 		var dx=this.x-circle.x;
@@ -63,7 +61,7 @@ function inicio(e){
 	ctx.beginPath();
 	ctx.strokeStyle = color;
 	ctx.lineWidth = ancho;
-	ctx.arc(e.touches[0].pageX, e.touches[0].pageY, .3, 0, 2 * Math.PI, false);
+	ctx.arc(e.touches[0].pageX, e.touches[0].pageY, .3, 0, 2*Math.PI, false);
 	ctx.fillStyle = color;
 	ctx.fill();
 }
@@ -101,16 +99,13 @@ $("#limpiar").click(function(){
 	ctx.fillRect(0, 0, canvasW, canvasH);
 	color = "#000";
 });
-
 $("#resultado").click(function(){
 	alert("Te has salido " + contador + " veces");
 });
-
 $("#dibujar").click(function(){
 	color = "#000";
 	ancho = 3;
 });
-
 $("#recargar").click(function(){
 	init();
 });
