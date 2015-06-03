@@ -21,13 +21,6 @@ function init(){
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight - 100;
 	
-	/*AÑADIR IMAGEN*/
-	var img = new Image();
-	img.src = "img/dos.jpg";
-	img.onload = function(){
-		ctx.drawImage(img, 0, 0);
-	}
-	
 	run();
 	
 }
@@ -84,11 +77,19 @@ function run(){
 }
 function act(){
 
-	
+
 }
 function paint(ctx){
 	//ctx.strokeStyle='#0f0';
 	//player.stroke(ctx);
+	
+	/*AÑADIR IMAGEN*/
+	var img = new Image();
+	img.src = "img/dos.jpg";
+	img.onload = function(){
+		ctx.drawImage(img, 0, 0);
+	}
+
 	ctx.strokeStyle='#f00';
 	target.stroke(ctx);
 }
