@@ -89,7 +89,7 @@ function paint(ctx){
 	img.onload = function(){
 		ctx.drawImage(img, 0, 0);
 	}
-
+	
 	ctx.strokeStyle='#f00';
 	target.stroke(ctx);
 }
